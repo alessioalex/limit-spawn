@@ -3,7 +3,7 @@
   "license": "MIT",
   "name": "limit-spawn",
   "description": "Kills a child process created with spawn after X bytes are sent",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": {
     "type": "git",
     "url": "git://github.com/alessioalex/limit-spawn.git"
