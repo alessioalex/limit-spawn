@@ -9,6 +9,10 @@ Kills a child process created with spawn after X bytes are sent and emits an eve
 ```bash
 npm install limit-spawn
 ```
+### Note
+
+This is a soft limit, meaning that after more than MAX data is received the process is closed and the 'max-limit-exceeded' is emitted.
+So this implies that you can receive more data than the limit (depending on the last chunk).
 
 ### Examples
 
@@ -36,8 +40,6 @@ child.stderr.pipe(process.stderr);
 
 child.on('max-limit-exceeded', function(size) {
   console.log('limit exceeded: ' + parseInt(size / 1024, 10) + ' Kb sent');
-  // the data received should not exceed the 'size' param
-  assert.ok(bytesReceived <= size);
 });
 
 // shortly after the 'max-limit-exceeded' event is emitted the child dies
