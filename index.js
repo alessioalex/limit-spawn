@@ -6,12 +6,14 @@
  * @param {Number} max
  * @return {Object} ps - ChildProcess object
  */
-function limit(ps, max) {
-  var size;
 
+var os = require('os');
+var SIGNAL = (os.platform().indexOf('win') !== -1) ? 'SIGKILL': 'SIGHUP';
+
+function limit(ps, max) {
   if (!limit) { return ps; }
 
-  size = 0;
+  var size = 0;
 
   ps.stdout.on('data', function(data) {
     size += data.length;
@@ -20,7 +22,7 @@ function limit(ps, max) {
       // data could still be emitted before the process closes
       ps.stdout.removeAllListeners('data');
       ps.emit('max-limit-exceeded', size);
-      ps.kill('SIGHUP');
+      ps.kill(SIGNAL);
     }
   });
 
